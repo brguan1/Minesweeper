@@ -19,8 +19,8 @@ void setup ()
     for(int i = 0;i<NUM_ROWS;i++)
         for(int n = 0;n<NUM_COLS;n++)
             buttons[i][n]=new MSButton(i,n);
-   // for(int i = 0; i<(int)((Math.random()*175)+25);i++)
-    //setBombs();
+    for(int i = 0; i<(int)((Math.random()*175)+25);i++)
+    setBombs();
 }
 public void setBombs()
 {
@@ -53,13 +53,15 @@ public boolean isWon()
 public void displayLosingMessage()
 {
     //your code here
-    /* for(int i=r-1;i<r+1;i++)
-        for(int n=c-1;n<c+1;n++)
-            buttons[i][n].setLabel("You Lose!");*/
+    for(int i=0;i<NUM_ROWS;i++)
+        for(int n=0;n<NUM_COLS;n++)
+            buttons[i][n].setLabel("You Lose!");
 }
 public void displayWinningMessage()
 {
-    //your code here
+    for(int i=0;i<NUM_ROWS;i++)
+        for(int n=0;n<NUM_COLS;n++)
+            buttons[i][n].setLabel("You Win!");
 }
 
 public class MSButton
@@ -104,7 +106,7 @@ public class MSButton
             if(marked==false)
                 clicked=false;
         }
-        else if(bombs.contains( this ))
+        else if(bombs.contains(buttons[r][c]))
                 displayLosingMessage();
         else if(countBombs(r,c)>0)
             buttons[r][c].setLabel(""+countBombs(r,c));
@@ -130,26 +132,27 @@ public class MSButton
 
                    buttons[r][c-1].mousePressed();
                 }
-                if(isValid(r-1,c-1)&&buttons[r-1][c-1].isClicked()==false)
+                if(isValid(r,c+1)&&buttons[r][c+1].isClicked()==false)
                 {
 
-                   buttons[r-1][c-1].mousePressed();
+                   buttons[r][c+1].mousePressed();
                 }
-                if(isValid(r-1,c-1)&&buttons[r-1][c-1].isClicked()==false)
+                if(isValid(r+1,c-1)&&buttons[r+1][c-1].isClicked()==false)
                 {
 
-                   buttons[r-1][c-1].mousePressed();
+                   buttons[r+1][c-1].mousePressed();
                 }
-                if(isValid(r-1,c-1)&&buttons[r-1][c-1].isClicked()==false)
+                if(isValid(r+1,c)&&buttons[r+1][c].isClicked()==false)
                 {
 
-                   buttons[r-1][c-1].mousePressed();
+                   buttons[r+1][c].mousePressed();
                 }
-                if(isValid(r-1,c-1)&&buttons[r-1][c-1].isClicked()==false)
+                if(isValid(r+1,c+1)&&buttons[r+1][c+1].isClicked()==false)
                 {
 
-                   buttons[r-1][c-1].mousePressed();
+                   buttons[r+1][c+1].mousePressed();
                 }
+                buttons[r][c].mousePressed();
         }    
     }
 
@@ -167,6 +170,8 @@ public class MSButton
         rect(x, y, width, height);
         fill(0);
         text(label,x+width/2,y+height/2);
+        if(isWon())
+            displayWinningMessage();
     }
     public void setLabel(String newLabel)
     {
